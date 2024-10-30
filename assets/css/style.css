@@ -1,0 +1,76 @@
+.carousel-item img {
+  height: 300px; /* Atur tinggi sesuai kebutuhan */
+  object-fit: cover; /* Ini memastikan gambar tidak terdistorsi */
+}
+
+.custom-hr {
+  border: none; /* Menghapus border default */
+  height: 5px; /* Menentukan ketebalan garis */
+  background-color: #ab7665; /* Mengatur warna latar belakang */
+  margin: 20px auto; /* Menjaga jarak di atas dan bawah, dan mengatur garis agar berada di tengah */
+  width: 10%; /* Mengatur lebar garis */
+}
+
+.text-header {
+  color: #ab7665;
+}
+.link {
+  color: #ab7665; /* Warna link */
+  font-weight: bold; /* Huruf tebal */
+  text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+/* Hover effect */
+.link:hover {
+  color: #c5765c; /* Warna link */
+
+  text-decoration: underline; /* Menambahkan garis bawah saat hover */
+}
+
+.floating-nav {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between icons */
+  z-index: 1000;
+}
+.nav-item {
+  background-color: #cfa597; /* Background color */
+  color: white; /* Icon color */
+  border-radius: 50%;
+  width: 50px; /* Icon size */
+  height: 50px; /* Icon size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
+  position: relative; /* To position tooltip */
+  box-shadow: 4px 4px 4px #ffedf5; /* Initial shadow */
+}
+
+.nav-item:hover {
+  background-color: #ab7665; /* Darker shade on hover */
+}
+
+.nav-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%; /* Align vertically with the icon */
+  left: -120%; /* Position to the left of the icon */
+  transform: translateY(-50%); /* Center the tooltip vertically */
+  background-color: #333; /* Tooltip background */
+  color: white; /* Tooltip text color */
+  padding: 5px 10px; /* Tooltip padding */
+  border-radius: 5px; /* Rounded corners */
+  white-space: nowrap; /* Prevent text wrapping */
+  opacity: 1; /* Fully visible */
+  transition: opacity 0.3s;
+}
+
+.nav-item::after {
+  content: "";
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
