@@ -74,3 +74,74 @@
   opacity: 0; /* Hidden by default */
   transition: opacity 0.3s;
 }
+
+/* Styling untuk container yang bisa di-scroll */
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth; /* Smooth scroll saat tombol navigasi digunakan */
+  gap: 20px; /* Jarak antar kategori */
+  padding: 10px 0;
+}
+
+/* Menghapus scrollbar default */
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container {
+  -ms-overflow-style: none; /* Internet Explorer/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Styling item kategori */
+.category-item {
+  min-width: 200px; /* Lebar minimal setiap item */
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Optional: Button navigasi kiri dan kanan */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.scroll-left {
+  left: 10px;
+}
+
+.scroll-right {
+  right: 10px;
+}
+
+.tombol {
+  background-color: #ab7665; /* Warna coklat */
+  color: #fff; /* Warna putih untuk teks */
+  border: none;
+  padding: 8px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.tombol:hover {
+  background-color: #996652; /* Warna coklat yang lebih gelap saat dihover */
+}
+
+.paragraph {
+  color: #ab7665;
+  text-align: justify;
+}
+
+.card-img-top {
+  height: 200px; /* Adjust the height as needed */
+  object-fit: cover;
+}
