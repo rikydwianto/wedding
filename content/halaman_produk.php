@@ -35,7 +35,7 @@ if (isset($_GET['produkid'])) {
     pindah_halaman("index.php");
 }
 
-$vendor = mysqli_fetch_assoc($q);
+$produk = mysqli_fetch_assoc($q);
 
 ?>
 
@@ -43,23 +43,23 @@ $vendor = mysqli_fetch_assoc($q);
     <div class="container">
         <div class="row">
             <div class="col-lg-2 col-md-6 col-sm-12">
-                <img src="assets/img/product/<?= $vendor['product_photo'] ?>" class="mb-2"
-                    style="width: 100%;align-items: center;float: right;" alt="<?= $vendor['category_name'] ?>">
+                <img src="assets/img/product/<?= $produk['product_photo'] ?>" class="mb-2"
+                    style="width: 100%;align-items: center;float: right;" alt="<?= $produk['category_name'] ?>">
                 <h5 class="text-header">
-                    <?= $vendor['name'] ?></h5>
+                    <?= $produk['name'] ?></h5>
                 <p class="rating">Rating Vendor: ★★★★☆</p>
-                <a href='index.php?menu=vendor&vendor=<?= enkrip($vendor['vendor_id']) ?>' class="link">Kunjungi
+                <a href='index.php?menu=vendor&vendor=<?= enkrip($produk['vendor_id']) ?>' class="link">Kunjungi
                     Toko</a>
             </div>
             <div class="col-lg-10 col-md-6 col-sm-12">
                 <div class="row">
                     <div class="col-lg-12 col-md-6 col-sm-12">
-                        <h1 style="color: #AB7665; font-size: 30px;"><?= $vendor['product_name'] ?> </h1>
+                        <h1 style="color: #AB7665; font-size: 30px;"><?= $produk['product_name'] ?> </h1>
                         <p class="rating">Rating Produk: ★★★★☆</p>
-                        <p class="paragraph"><?= $vendor['description'] ?></p>
+                        <p class="paragraph"><?= $produk['description'] ?></p>
 
                         <p class="mt-5">
-                        <h4 class="text-header">Harga : <?= rupiah($ve) ?> </h4>
+                        <h4 class="text-header">Harga : <?= rupiah($produk['price']) ?> </h4>
 
                         </p>
                         <div class="mt-3">
@@ -74,7 +74,7 @@ $vendor = mysqli_fetch_assoc($q);
     </div>
 </section>
 <div class="container section-title">
-    <h2 class="text-center text-header mt-3">Ulasan Produk <?= $vendor['product_name'] ?></h2>
+    <h2 class="text-center text-header mt-3">Ulasan Produk <?= $produk['product_name'] ?></h2>
     <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
 </div>
 <div class="container mt-5">
