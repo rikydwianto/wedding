@@ -28,7 +28,7 @@ $kat = mysqli_fetch_assoc($q);
                 <h1 style="color: #AB7665; font-size: 30px;">Apa itu <?= $kat['category_name'] ?> ?</h1>
                 <p class="paragraph"><?= $kat['category_descripsion'] ?></p>
                 <!-- <button class=" tombol"><i class="fa fa-map"></i> Lokasi</button> -->
-                <button class="tombol"><i class="fa fa-calendar"></i> Jadwal</button>
+                <!-- <button class="tombol"><i class="fa fa-calendar"></i> Jadwal</button> -->
 
             </div>
         </div>
