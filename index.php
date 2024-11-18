@@ -1,9 +1,27 @@
 <?php
+session_start();
 include_once "./koneksi/db.php";
 include_once "./function/global.php";
+if (!isset($_SESSION['chart_kode'])) {
+    $kodeUnik = uniqid('notlogin-', true);
+    $_SESSION['chart_kode'] = $kodeUnik;
+}
+$kode = $_SESSION['chart_kode'];
+$hitung = mysqli_query($conn, "SELECT
+                                    count(*) AS total_keranjang 
+                                FROM
+                                    keranjang
+                                    INNER JOIN item_keranjang ON keranjang.id = item_keranjang.keranjang_id
+                                    where user_id='$kode' or session_id='$kode'");
+$hitung = mysqli_fetch_assoc($hitung);
+$hitung_keranjang = $hitung['total_keranjang'];
+
+
+include_once("./layout/page_start.php");
+include_once("./layout/page_header.php");
+
+
 ?>
-<?php include_once("./layout/page_start.php"); ?>
-<?php include_once("./layout/page_header.php"); ?>
 
 
 
@@ -55,42 +73,50 @@ if (isset($_GET['menu'])) {
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- Shopping Cart Items -->
-        <div class="cart-item d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h6>Product 1</h6>
-                <p>$25.00</p>
+        <?php
+        $sql = mysqli_query($conn, "SELECT
+                                    d.keranjang_id,
+                                    d.produk_id,
+                                    d.jumlah,
+                                    d.harga,
+                                    d.subtotal,
+                                    v.`name` AS nama_vendor,
+                                    p.product_name 
+                                FROM
+                                    keranjang AS k
+                                    INNER JOIN item_keranjang AS d ON k.id = d.keranjang_id
+                                    INNER JOIN products AS p ON d.produk_id = p.product_id
+                                    INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
+                                    where user_id='$kode' or session_id='$kode'");
+        $total_semua = 0;
+        while ($cart = mysqli_fetch_assoc($sql)) {
+            $sub = $cart['subtotal'];
+            $total_semua = $sub + $total_semua;
+        ?>
+            <div class="cart-item d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h6><?= $cart['product_name'] ?></h6>
+                    <small>dari <?= $cart['nama_vendor'] ?></small>
+                    <p> <?= rupiah($sub) ?></p>
+                </div>
+                <input type="number" class="form-control w-25" readonly value="<?= $cart['jumlah'] ?>" min="1">
             </div>
-            <input type="number" class="form-control w-25" value="1" min="1">
-        </div>
+        <?php
+        }
+        ?>
 
-        <div class="cart-item d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h6>Product 2</h6>
-                <p>$50.00</p>
-            </div>
-            <input type="number" class="form-control w-25" value="2" min="1">
-        </div>
-
-        <div class="cart-item d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h6>Product 3</h6>
-                <p>$10.00</p>
-            </div>
-            <input type="number" class="form-control w-25" value="3" min="1">
-        </div>
 
         <hr>
 
         <!-- Total Price -->
         <div class="d-flex justify-content-between">
             <h6>Total:</h6>
-            <h6>$85.00</h6>
+            <h6><?= rupiah($total_semua) ?></h6>
         </div>
 
         <!-- Checkout Button -->
         <div class="d-grid gap-2 mt-3">
-            <button class="btn btn-success" type="button">Proceed to Checkout</button>
+            <button class="btn btn-success" type="button">Atur Keranjang</button>
         </div>
     </div>
 </div>

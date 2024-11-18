@@ -29,7 +29,8 @@ $vendor = mysqli_fetch_assoc($q);
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <h1 style="color: #AB7665; font-size: 30px;"><?= $vendor['name'] ?> </h1>
                         <p class="rating">Rating: ★★★★☆</p>
-                        <button class="tombol"><i class="fa fa-map"></i> Lokasi</button>
+                        <a href="<?= $vendor['url_lokasi'] ?>"> <button class="tombol"><i class="fa fa-map"></i>
+                                Lokasi</button></a>
                         <button class="tombol"><i class="fa fa-calendar"></i> Jadwal</button>
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-12">

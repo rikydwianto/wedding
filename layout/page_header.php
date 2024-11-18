@@ -17,10 +17,16 @@
             <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
                 <img src="assets/img/search.png" alt="Search" width="36" height="36" class="rounded-circle">
             </a>
-            <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
+            <a href="javascript:void(0)" class="d-block link-body-emphasis text-decoration-none pr-3 position-relative">
                 <img src="assets/img/cart.png" alt="Cart" width="36" height="36" class="rounded-circle"
                     data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart">
+                <!-- Badge Total Cart -->
+                <span id="cart-total"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <?= $hitung_keranjang ?>
+                </span>
             </a>
+
             <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
                 <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36" class="rounded-circle">
             </a>
