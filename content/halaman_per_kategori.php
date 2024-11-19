@@ -39,7 +39,7 @@ $kat = mysqli_fetch_assoc($q);
     <h2 class="text-center text-header mt-3">Produk <?= $kat['category_name'] ?></h2>
     <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
 </div>
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row">
         <?php
         $q_pro = mysqli_query($conn, "SELECT

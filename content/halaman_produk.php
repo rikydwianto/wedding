@@ -110,12 +110,33 @@ if ($ratin_vendor > 5) {
                         </p>
                         <div class="mt-3">
 
-                            <form action="" method="post">
+                            <form action="" method="post" id="formPesan">
+
+                                <div class="col-5">
+                                    Tanggal
+                                    <input type="text" id="flatpickr" name="tanggal" class="form-control" required
+                                        placeholder="Cek dan Pilih tanggal"><br>
+
+                                </div>
+                                <div class="col-5">
+                                    <div id="hasil_cek" class="alert alert-success">
+                                        <i class="fa fa-check-circle"></i> Pilihannya tepat! Tanggal ini masih kosong.
+                                        Jangan tunda lagi,<strong>Pesan sekarang</strong> dan pastikan tanggal ini
+                                        jadi
+                                        milik Anda!
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <button class="tombol" type="submit" name="tambah"><i
+                                            class="fa fa-shopping-cart"></i>
+                                        Masukan Keranjang</button>
 
 
-                                <button class="tombol" type="submit" name="tambah"><i class="fa fa-shopping-cart"></i>
-                                    Masukan Keranjang</button>
-                                <button class="tombol"><i class="fa fa-calendar"></i> Pesan Sekarang</button>
+                                    <button class="tombol"><i class="fa fa-calendar"></i> Pesan Sekarang</button>
+                                </div>
+
+
+
                             </form>
 
                         </div>
@@ -123,6 +144,8 @@ if ($ratin_vendor > 5) {
 
                         if (isset($_POST['tambah'])) {
                             $produk_id = dekrip(mysqli_escape_string($conn, $_GET['produkid']));
+
+
                             $q = mysqli_query($conn, "SELECT
                                                         p.product_id, p.vendor_id, p.product_name, p.product_photo, p.description, p.categori, p.price, p.stock, p.total_viewer, p.created_at, p.updated_at, p.rating, v.`name`, v.description as dev_vendor, v.contact_number, v.photo, v.email, v.website, v.`password`, v.url_lokasi, v.latitude, v.logitude, v.rating as rating_vendor  FROM
                                                         products AS p
@@ -132,6 +155,7 @@ if ($ratin_vendor > 5) {
                             $produk = mysqli_fetch_assoc($q);
 
                             $jumlah = 1;
+                            $tgl = mysqli_escape_string($conn, $_POST['tanggal']);
                             $harga = $produk['price'];
                             $subtotal = $jumlah * $harga;
                             $cek_keranjang = mysqli_query($conn, "SELECT * 
@@ -151,7 +175,7 @@ if ($ratin_vendor > 5) {
                                 }
                             }
 
-                            $sql_item = "SELECT id, jumlah FROM item_keranjang WHERE keranjang_id = '$keranjang_id' AND produk_id = '$produk_id'";
+                            $sql_item = "SELECT id, jumlah FROM item_keranjang WHERE keranjang_id = '$keranjang_id' AND produk_id = '$produk_id' and tanggal_acara='$tgl'";
                             $result_item = mysqli_query($conn, $sql_item);
 
                             if (mysqli_num_rows($result_item) > 0) {
@@ -172,8 +196,8 @@ if ($ratin_vendor > 5) {
                                 }
                             } else {
                                 // Jika item belum ada, lakukan insert
-                                $sql_insert = "INSERT INTO item_keranjang (keranjang_id, produk_id, jumlah, harga, subtotal) 
-                                               VALUES ('$keranjang_id', '$produk_id', '$jumlah', '$harga', '$subtotal')";
+                                $sql_insert = "INSERT INTO item_keranjang (keranjang_id, produk_id, jumlah, harga, subtotal,tanggal_acara) 
+                                               VALUES ('$keranjang_id', '$produk_id', '$jumlah', '$harga', '$subtotal','$tgl')";
                                 if (mysqli_query($conn, $sql_insert)) {
                                     echo "Produk sudah ditambahkan ke keranjang.";
                                     pindah_halaman("");
@@ -193,7 +217,7 @@ if ($ratin_vendor > 5) {
     <h2 class="text-center text-header mt-3">Ulasan Produk <?= $produk['product_name'] ?></h2>
     <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
 </div>
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Jane Smith</h5>

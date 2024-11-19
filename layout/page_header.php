@@ -27,7 +27,7 @@
                 </span>
             </a>
 
-            <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
+            <a href="login.php" class="d-block link-body-emphasis text-decoration-none pr-3">
                 <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36" class="rounded-circle">
             </a>
         </div>

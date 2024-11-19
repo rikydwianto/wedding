@@ -1,11 +1,17 @@
 <?php
 session_start();
+// session_destroy();
 include_once "./koneksi/db.php";
 include_once "./function/global.php";
+
 if (!isset($_SESSION['chart_kode'])) {
     $kodeUnik = uniqid('notlogin-', true);
     $_SESSION['chart_kode'] = $kodeUnik;
 }
+if (isset($_SESSION['user_id'])) {
+    $_SESSION['chart_kode'] = $_SESSION['user_id'];
+}
+
 $kode = $_SESSION['chart_kode'];
 $hitung = mysqli_query($conn, "SELECT
                                     count(*) AS total_keranjang 
@@ -79,9 +85,9 @@ if (isset($_GET['menu'])) {
         $sql = mysqli_query($conn, "SELECT
                                     d.keranjang_id,
                                     d.produk_id,
-                                    d.jumlah,
+                                    count(d.jumlah) as jumlah,
                                     d.harga,
-                                    d.subtotal,
+                                    sum(d.subtotal) as subtotal,
                                     v.`name` AS nama_vendor,
                                     p.product_name 
                                 FROM
@@ -89,7 +95,7 @@ if (isset($_GET['menu'])) {
                                     INNER JOIN item_keranjang AS d ON k.id = d.keranjang_id
                                     INNER JOIN products AS p ON d.produk_id = p.product_id
                                     INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                                    where user_id='$kode' or session_id='$kode'");
+                                    where user_id='$kode' or session_id='$kode' group by produk_id");
         $total_semua = 0;
         while ($cart = mysqli_fetch_assoc($sql)) {
             $sub = $cart['subtotal'];
@@ -123,3 +129,4 @@ if (isset($_GET['menu'])) {
     </div>
 </div>
 <?php include_once("./layout/page_footer.php") ?>
+<?php include_once("./layout/page_script.php") ?>

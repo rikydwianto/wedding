@@ -23,6 +23,7 @@
                             i.keranjang_id,
                             i.id,
                             i.produk_id,
+                            i.tanggal_acara,
                             sum(i.jumlah) as jumlah_total,
                             (i.harga) as harga,
                             sum(i.subtotal) as sub_total ,
@@ -39,6 +40,10 @@
                             ");
 
     $total_keranjang = mysqli_num_rows($q);
+    if (isset($_POST['proses_cek'])) {
+
+        echo "PROSES CHECKOUT DISINI YA";
+    }
 
     ?>
 
@@ -49,8 +54,8 @@
                     <?php
                     if ($total_keranjang > 0) {
                     ?>
-                    <form action="" method="post">
-                        <?php
+                        <form action="" method="post">
+                            <?php
                             $total_qty = 0;
                             $total_semua = 0;
                             while ($data = mysqli_fetch_assoc($q)) {
@@ -63,73 +68,106 @@
                                 $total_qty  = $total_qty + $qty;
                                 $total_semua = $total_semua + $sub_total;
                             ?>
-                        <div class="row mt-3 align-items-center">
-                            <div class="col-12 border">
-                                <label for="<?= $checkbox_id ?>"
-                                    class="d-flex flex-wrap align-items-center w-100 p-2 rounded cursor-pointer"
-                                    style="gap: 10px; overflow: hidden;">
-                                    <div class="form-check flex-shrink-0">
+                                <div class="row mt-3 align-items-center">
+                                    <div class="col-12 ">
+                                        <label for="<?= $checkbox_id ?>"
+                                            class="d-flex flex-wrap align-items-center w-100 p-2 rounded cursor-pointer"
+                                            style="gap: 10px; overflow: hidden;">
+                                            <div class="form-check flex-shrink-0">
 
-                                        <input class="form-check-input large-checkbox" type="checkbox"
-                                            name="selected_products[]" value="<?= $data['id'] ?>"
-                                            id="<?= $checkbox_id ?>">
+                                                <input class="form-check-input large-checkbox" type="checkbox"
+                                                    name="selected_products[]" checked value="<?= $data['id'] ?>"
+                                                    id="<?= $checkbox_id ?>">
+                                            </div>
+
+                                            <div class="row flex-grow-1 g-1">
+                                                <div class="col-12 col-md-4 ">
+                                                    <img src="assets/img/product/<?= $data['product_photo'] ?>"
+                                                        class="img-fluid border rounded" alt="<?= $data['product_name'] ?>"
+                                                        style="height: 120px; width: 80%; object-fit: cover;">
+                                                </div>
+                                                <div class="col-12 col-md-8 d-flex flex-column justify-content-center">
+                                                    <h3 class="text-truncate m-0"><?= $data['product_name'] ?></h3>
+                                                    <p class="text-truncate m-0"><?= $data['description'] ?></p>
+
+                                                    <!-- Dua kolom: Kiri untuk informasi, kanan untuk input tanggal acara -->
+                                                    <div class="row mt-3">
+                                                        <!-- Kolom Kiri (informasi) -->
+                                                        <div class="col-12 col-md-3">
+                                                            <p class="m-0"><strong>Harga:</strong> <?= rupiah($harga) ?></p>
+                                                            <p class="m-0"><strong>QTY:</strong> <?= rupiah($qty) ?>
+                                                            </p>
+                                                        </div>
+
+                                                        <!-- Kolom Kanan (input tanggal acara) -->
+                                                        <div class="col-12 col-md-6">
+                                                            <p class="m-0"><strong>Tanggal Acara :
+                                                                </strong> <?= formatTanggal($data['tanggal_acara']) ?>
+                                                            </p>
+                                                            <p class="m-0">
+                                                                <strong>Total :</strong> <?= rupiah($sub_total) ?>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <a href="index.php?menu=keranjang&id=<?= enkrip($data['id']) ?>&hapus"
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Apakah yakin akan hapus produk ini?')"><i
+                                                                    class="fa fa-trash"></i> Hapus</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
+                                </div>
 
-                                    <div class="row flex-grow-1 g-1">
-                                        <div class="col-12 col-md-4 ">
-                                            <img src="assets/img/product/<?= $data['product_photo'] ?>"
-                                                class="img-fluid border rounded" alt="<?= $data['product_name'] ?>"
-                                                style="height: 120px; width: 80%; object-fit: cover;">
-                                        </div>
-                                        <div class="col-12 col-md-8 d-flex flex-column justify-content-center">
-                                            <h3 class="text-truncate m-0"><?= $data['product_name'] ?></h3>
-                                            <p class="text-truncate m-0"><?= $data['description'] ?></p>
-                                            <p class="m-0"><strong>Harga:</strong> <?= rupiah($harga) ?></p>
-                                            <p class="m-0"><strong>QTY:</strong> <?= rupiah($qty) ?>
-                                            </p>
-                                            <p class="m-0"><strong>Total :</strong> <?= rupiah($sub_total) ?>
-                                                <br>
-                                                <a href="index.php?menu=keranjang&id=<?= enkrip($data['id']) ?>&hapus"
-                                                    class="btn btn-danger"
-                                                    onclick="return confirm('Apakah yakin akan hapus produk ini?')"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <?php
+                            <?php
                             }
                             ?>
-                        <div class="container mt-4">
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-md-12">
-                                    <div class="card shadow-sm border-0">
-                                        <div class="card-body text-center">
-                                            <h4 class="card-title mb-3">Total </h4>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-1">Total Item:</p>
-                                                <p class="mb-1"><strong id="total-items"><?= $total_qty ?></strong></p>
+                            <div class="container mt-4 ">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-12">
+                                        <div class="card shadow-sm border-0">
+                                            <div class="card-body text-center">
+                                                <h4 class="card-title mb-3">Total </h4>
+                                                <div class="d-flex justify-content-between">
+                                                    <p class="mb-1">Total Item:</p>
+                                                    <p class="mb-1"><strong id="total-items"><?= $total_qty ?></strong></p>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <p class="mb-1">Total Harga:</p>
+                                                    <p class="mb-1"><strong
+                                                            id="total-price"><?= rupiah($total_semua) ?></strong></p>
+                                                </div>
+                                                <?php
+                                                if (isset($_SESSION['user_id'])) {
+                                                ?>
+                                                    <button class="tombol mt-3 w-100" name='proses_cek'
+                                                        id="checkout-button">Lanjut ke
+                                                        Pembayaran <i class="fa fa-shopping-cart"></i></button>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href='login.php?checkout' class="tombol mt-3 w-100"
+                                                        id="checkout-button">Login Dulu untuk
+                                                        melanjutkan <i class="fa fa-shopping-cart"></i></a>
+                                                <?php
+                                                }
+
+                                                ?>
+
                                             </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-1">Total Harga:</p>
-                                                <p class="mb-1"><strong
-                                                        id="total-price"><?= rupiah($total_semua) ?></strong></p>
-                                            </div>
-                                            <button class=" tombol  mt-3 w-100" disabled id="checkout-button">Lanjut ke
-                                                Pembayaran <i class="fa fa-shopping-cart"></i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
 
-                        <?php
+                    <?php
                     } else {
-                        ?>
+                    ?>
                         <div class="row">
                             <div class="col-12">
                                 <p class="lead">
@@ -140,9 +178,10 @@
                                 <a href="index.php" class="tombol "><i class="fa fa-shopping-cart"></i> Halaman Awal</a>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
-                        ?>
+
+                    ?>
 
                 </div>
 

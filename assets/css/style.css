@@ -159,3 +159,20 @@
 .large-checkbox:checked {
   background-color: #ab7665;
 }
+
+#flatpickr {
+  /* width: 150px; */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+  margin-bottom: 10px;
+}
+
+/* Gaya saat input tanggal difokuskan */
+#flatpickr:focus {
+  border-color: #007bff; /* Warna biru saat fokus */
+  outline: none;
+}
