@@ -145,3 +145,17 @@
   height: 200px; /* Adjust the height as needed */
   object-fit: cover;
 }
+
+.large-checkbox {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px;
+  background-color: #dfbcb0;
+
+  /* border: 2px solid #ab7665;
+  border-radius: 5px;
+  margin-right: 10px; Adjust the margin as needed */
+}
+
+.large-checkbox:checked {
+  background-color: #ab7665;
+}

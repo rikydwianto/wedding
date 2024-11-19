@@ -34,6 +34,8 @@ if (isset($_GET['menu'])) {
         include_once("./content/halaman_per_vendor.php");
     } else if ($menu == 'produk') {
         include_once("./content/halaman_produk.php");
+    } else if ($menu == 'keranjang') {
+        include_once("./content/halaman_keranjang.php");
     } else {
         include_once("./layout/banner.php");
         include_once("./content/halaman-awal.php");
@@ -116,7 +118,7 @@ if (isset($_GET['menu'])) {
 
         <!-- Checkout Button -->
         <div class="d-grid gap-2 mt-3">
-            <button class="btn btn-success" type="button">Atur Keranjang</button>
+            <a href='index.php?menu=keranjang' class="btn btn-success">Atur Keranjang</a>
         </div>
     </div>
 </div>
