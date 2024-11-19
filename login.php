@@ -67,7 +67,6 @@ if (isset($_GET['checkout'])) {
                                     // Sukses login, simpan data sesi
                                     $uid = $user['user_id'];
                                     mysqli_query($conn, "UPDATE keranjang set user_id='$uid',date_edited=NOW()  where user_id='$kode' or session_id='$kode'");
-                                    echo "UPDATE keranjang set user_id='$uid',date_edited=NOW()  where user_id='$kode' or session_id='$kode'";
                                     $_SESSION['user_id'] = $user['user_id'];
                                     $_SESSION['username'] = $user['username'];
                                     $_SESSION['role'] = $user['role'];
