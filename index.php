@@ -42,6 +42,10 @@ if (isset($_GET['menu'])) {
         include_once("./content/halaman_produk.php");
     } else if ($menu == 'keranjang') {
         include_once("./content/halaman_keranjang.php");
+    } else if ($menu == 'pembayaran') {
+        include_once("./content/halaman_pembayaran.php");
+    } else if ($menu == 'konfirmasi_pembayaran') {
+        include_once("./content/halaman_konfirmasi_pembayaran.php");
     } else {
         include_once("./layout/banner.php");
         include_once("./content/halaman-awal.php");

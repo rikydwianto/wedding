@@ -36,13 +36,43 @@
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                            where k.user_id='$kode' or k.session_id='$kode' group by produk_id
+                            where k.user_id='$kode' or k.session_id='$kode' group by produk_id,tanggal_acara
                             ");
 
     $total_keranjang = mysqli_num_rows($q);
     if (isset($_POST['proses_cek'])) {
 
-        echo "PROSES CHECKOUT DISINI YA";
+        $ppr = mysqli_fetch_assoc($q);
+        $keranjang_id =  $ppr['keranjang_id'];
+        mysqli_query($conn, "UPDATE item_keranjang set checkout=NULL  where keranjang_id='$keranjang_id'");
+        $selectedProducts = isset($_POST['selected_products']) ? $_POST['selected_products'] : [];
+        $tanggalAcara = isset($_POST['tgl']) ? $_POST['tgl'] : [];
+
+        if (!empty($selectedProducts)) {
+            foreach ($selectedProducts as $index => $productId) {
+                // Pastikan tanggal acara sesuai indeks checkbox yang terpilih
+                $tanggal = $tanggalAcara[$index] ?? null;
+
+                // Output atau proses data
+                $productIdEscaped = mysqli_real_escape_string($conn, $productId);
+                $tanggalEscaped = mysqli_real_escape_string($conn, $tanggal);
+
+                // Query untuk mengupdate `checkout` menjadi "ya"
+                $query = "UPDATE item_keranjang SET checkout = 'ya' 
+                          WHERE id = '$productIdEscaped' AND tanggal_acara = '$tanggalEscaped'";
+                $ekse = mysqli_query($conn, $query);
+                // Eksekusi query
+            }
+            if ($ekse) {
+                echo "Produk ID: " . htmlspecialchars($productId) . " berhasil diupdate.<br>";
+            } else {
+                echo "Gagal mengupdate Produk ID: " . htmlspecialchars($productId) . ". Error: " . mysqli_error($conn) . "<br>";
+            }
+        } else {
+            echo "Tidak ada produk yang dipilih.";
+        }
+
+        pindah_halaman("index.php?menu=pembayaran");
     }
 
     ?>
@@ -78,6 +108,7 @@
                                                 <input class="form-check-input large-checkbox" type="checkbox"
                                                     name="selected_products[]" checked value="<?= $data['id'] ?>"
                                                     id="<?= $checkbox_id ?>">
+                                                <input type="hidden" name="tgl[]" value="<?= $data['tanggal_acara'] ?>">
                                             </div>
 
                                             <div class="row flex-grow-1 g-1">
