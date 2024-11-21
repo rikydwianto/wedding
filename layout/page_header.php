@@ -32,6 +32,9 @@
                 <a href="index.php?menu=profile" class="d-block link-body-emphasis text-decoration-none pr-3">
                     <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36" class="rounded-circle">
                 </a>
+                <a href="logout.php" class="d-block link-body-emphasis text-decoration-none pr-3">
+                    <img src="assets/img/sign-out-thin.png" alt="User" width="36" height="36" class="rounded-circle">
+                </a>
             <?php
             } else {
             ?>
