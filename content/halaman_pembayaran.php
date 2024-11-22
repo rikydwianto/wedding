@@ -41,6 +41,7 @@
                         ");
 
     $total_keranjang = mysqli_num_rows($q);
+
     ?>
 
     <div class="container py-5">
@@ -63,6 +64,7 @@
                             <?php
                             $total = 0;
                             while ($row = mysqli_fetch_assoc($q)) {
+                                $id_keranjang = $row['keranjang_id'];
                                 $total = $total + $row['sub_total'];
                             ?>
                                 <tr>
@@ -91,7 +93,8 @@
             </div>
             <div class="col-md-6 text-end">
                 <a href="index.php?menu=keranjang" class="btn btn-secondary">Kembali ke Keranjang</a>
-                <a href="index.php?menu=konfirmasi_pembayaran" class="btn btn-primary">Konfirmasi Pembayaran</a>
+                <a href="index.php?menu=konfirmasi_pembayaran&id=<?= enkrip($id_keranjang) ?>"
+                    class="btn btn-primary">Konfirmasi Pembayaran</a>
             </div>
         </div>
     </div>

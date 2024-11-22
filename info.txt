@@ -11,3 +11,9 @@ rating
 review 
 toko
   
+
+  konfirmasi pembayaran 
+  - catatan pembayaran
+  - catatan alamat
+  
+   nnti di user adminnya yang ngatur iklan ini aja
