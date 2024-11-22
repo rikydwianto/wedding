@@ -2,7 +2,9 @@
   height: 300px; /* Atur tinggi sesuai kebutuhan */
   object-fit: cover; /* Ini memastikan gambar tidak terdistorsi */
 }
-
+a {
+  text-decoration-line: none;
+}
 .custom-hr {
   border: none; /* Menghapus border default */
   height: 5px; /* Menentukan ketebalan garis */

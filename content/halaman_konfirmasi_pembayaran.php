@@ -26,40 +26,74 @@
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                            WHERE  i.keranjang_id=$id_keranjang
+                            WHERE  i.keranjang_id='$id_keranjang'
                             GROUP BY produk_id, i.tanggal_acara
                         ");
 
     $total_keranjang = mysqli_num_rows($q);
+    if (isset($_GET['status']) && $_GET['status'] == 'sukses') {
     ?>
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card text-center shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">Pembayaran Berhasil</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4 ">
+                                <img src="./assets/img/money-wavy-bold.png" alt="Success" class="img-fluid rounded-circle">
+                            </div>
+                            <h5 class="card-title">Terima Kasih!</h5>
+                            <p class="card-text">Pembayaran Anda telah berhasil diproses. Saat ini pembayaran Anda sedang
+                                menunggu konfirmasi dari admin.</p>
+                            <p class="text-muted">Silakan cek status pembayaran Anda di menu <strong>Riwayat
+                                    Pembayaran</strong>.</p>
+                            <a href="index.php" class="tombol">Kembali ke Halaman Utama</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Jika ada pertanyaan, hubungi +62 819-1601-7564
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="container py-5">
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="nominal" class="form-label">Jumlah Nominal yang Ditransfer (Rp)</label>
-                <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Contoh: 500000"
-                    required>
+        <?php
+    } else {
+        ?>
+            <div class="container py-5">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="nominal" class="form-label">Jumlah Nominal yang Ditransfer (Rp)</label>
+                        <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Contoh: 500000"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="buktiPembayaran" class="form-label">Upload Bukti Pembayaran</label>
+                        <input type="file" class="form-control" id="buktiPembayaran" name="bukti_pembayaran"
+                            accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="catatan" class="form-label">Catatan Pembayaran</label>
+                        <textarea class="form-control" id="catatan" name="catatan" rows="4"
+                            placeholder="Masukkan catatan tambahan jika ada"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="catatan" class="form-label">Alamat untuk Acara</label>
+                        <textarea class="form-control" id="catatan" name="alamat" rows="4"
+                            placeholder="Masukkan Alamat untuk acara yang akan diselenggarakan dengan vendor kami"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="index.php?menu=pembayaran" class="btn btn-secondary">Kembali</a>
+                        <button type="submit" name="konfirmasi" class="btn btn-primary">Konfirmasi Pembayaran</button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="buktiPembayaran" class="form-label">Upload Bukti Pembayaran</label>
-                <input type="file" class="form-control" id="buktiPembayaran" name="bukti_pembayaran" accept="image/*"
-                    required>
-            </div>
-            <div class="mb-3">
-                <label for="catatan" class="form-label">Catatan Pembayaran</label>
-                <textarea class="form-control" id="catatan" name="catatan" rows="4"
-                    placeholder="Masukkan catatan tambahan jika ada"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="catatan" class="form-label">Alamat untuk Acara</label>
-                <textarea class="form-control" id="catatan" name="alamat" rows="4"
-                    placeholder="Masukkan Alamat untuk acara yang akan diselenggarakan dengan vendor kami"></textarea>
-            </div>
-            <div class="d-flex justify-content-between">
-                <a href="index.php?menu=pembayaran" class="btn btn-secondary">Kembali</a>
-                <button type="submit" name="konfirmasi" class="btn btn-primary">Konfirmasi Pembayaran</button>
-            </div>
-        </form>
+        <?php
+    }
+
+        ?>
+
 
 
 
@@ -136,7 +170,7 @@ if (isset($_POST['konfirmasi'])) {
 
             if (mysqli_query($conn, $sql)) {
                 echo "Konfirmasi pembayaran berhasil disimpan.";
-                pindah_halaman("index.php?menu=pembayaran&status=sukses");
+                pindah_halaman("index.php?menu=konfirmasi_pembayaran&status=sukses");
             } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }

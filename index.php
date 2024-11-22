@@ -46,6 +46,8 @@ if (isset($_GET['menu'])) {
         include_once("./content/halaman_pembayaran.php");
     } else if ($menu == 'konfirmasi_pembayaran') {
         include_once("./content/halaman_konfirmasi_pembayaran.php");
+    } else if ($menu == 'profile') {
+        include_once("./content/halaman_profile.php");
     } else {
         include_once("./layout/banner.php");
         include_once("./content/halaman-awal.php");

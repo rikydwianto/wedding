@@ -3,6 +3,7 @@ session_start();
 include_once "./koneksi/db.php";
 include_once "./function/global.php";
 include_once("./layout/page_start.php");
+include_once("./layout/page_header.php");
 if (isset($_GET['checkout'])) {
     $_SESSION['balikin'] = 'keranjang';
 } else {
@@ -63,7 +64,7 @@ if (isset($_GET['checkout'])) {
                                 $user = mysqli_fetch_assoc($result);
 
                                 // Verifikasi password
-                                if ($password == $user['password']) {
+                                if (password_verify($password, $user['password'])) {
                                     // Sukses login, simpan data sesi
                                     $uid = $user['user_id'];
                                     mysqli_query($conn, "UPDATE keranjang set user_id='$uid',date_edited=NOW()  where user_id='$kode' or session_id='$kode'");
@@ -95,8 +96,8 @@ if (isset($_GET['checkout'])) {
 
                         ?>
 
-                        <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Lupa Password?</a></p>
-                        <p>Pengguna baru? <a href="#!" class="link-info">Daftar disini</a></p>
+                        <!-- <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Lupa Password?</a></p> -->
+                        <p>Pengguna baru? <a href="daftar.php" class="link-info">Daftar disini</a></p>
 
                     </form> <br>
                     <hr>
