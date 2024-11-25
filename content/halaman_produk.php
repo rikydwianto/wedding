@@ -161,7 +161,7 @@ if ($ratin_vendor > 5) {
                             $cek_keranjang = mysqli_query($conn, "SELECT * 
                                                                     FROM
                                                                         keranjang
-                                                                        where user_id='$kode' or session_id='$kode'");
+                                                                        where (user_id='$kode' or session_id='$kode') and keranjang.status is null");
                             if (mysqli_num_rows($cek_keranjang) > 0) {
                                 $cek_keranjang = mysqli_fetch_assoc($cek_keranjang);
                                 $keranjang_id = $cek_keranjang['id'];

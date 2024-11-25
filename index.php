@@ -18,7 +18,7 @@ $hitung = mysqli_query($conn, "SELECT
                                 FROM
                                     keranjang
                                     INNER JOIN item_keranjang ON keranjang.id = item_keranjang.keranjang_id
-                                    where user_id='$kode' or session_id='$kode'");
+                                    where (user_id='$kode' or session_id='$kode') and keranjang.status is null");
 $hitung = mysqli_fetch_assoc($hitung);
 $hitung_keranjang = $hitung['total_keranjang'];
 
@@ -101,7 +101,7 @@ if (isset($_GET['menu'])) {
                                     INNER JOIN item_keranjang AS d ON k.id = d.keranjang_id
                                     INNER JOIN products AS p ON d.produk_id = p.product_id
                                     INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                                    where user_id='$kode' or session_id='$kode' group by produk_id");
+                                    where (user_id='$kode' or session_id='$kode') and k.status is null group by produk_id");
         $total_semua = 0;
         while ($cart = mysqli_fetch_assoc($sql)) {
             $sub = $cart['subtotal'];

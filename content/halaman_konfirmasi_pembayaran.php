@@ -100,6 +100,7 @@
 </section>
 
 <?php
+echo $id_keranjang;
 if (isset($_POST['konfirmasi'])) {
     // Ambil data dari form
     $nominal = $_POST['nominal'];
@@ -169,6 +170,7 @@ if (isset($_POST['konfirmasi'])) {
                         VALUES ('$kode_pembayaran', '$nominal', '$bukti_pembayaran', '$catatan', '$alamat', '$status_pembayaran', '$tanggal', '$id_keranjang', '$date_created', '$kode')";
 
             if (mysqli_query($conn, $sql)) {
+                mysqli_query($conn, "UPDATE keranjang set status='konfirmasi' where id='$id_keranjang'");
                 echo "Konfirmasi pembayaran berhasil disimpan.";
                 pindah_halaman("index.php?menu=konfirmasi_pembayaran&status=sukses");
             } else {

@@ -36,7 +36,7 @@
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                            where k.user_id='$kode' or k.session_id='$kode' group by produk_id,tanggal_acara
+                            where (k.user_id='$kode' or k.session_id='$kode') and k.status is null group by produk_id,tanggal_acara
                             ");
 
     $total_keranjang = mysqli_num_rows($q);

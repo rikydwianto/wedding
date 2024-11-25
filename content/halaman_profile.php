@@ -26,7 +26,7 @@ if ($result) {
                 <p style="font-size: 16px; color: #333;">Email: <?= $user['email'] ?></p>
                 <p class="paragraph">Selamat datang di profil Anda! Ubah informasi Anda dengan mudah di halaman
                     pengaturan.</p>
-                <a href="settings.php" class="tombol btn btn-primary">Edit Profil</a>
+                <a href="index.php?menu=profile&act=edit_profile" class="tombol btn btn-primary">Edit Profil</a>
             </div>
         </div>
     </div>
@@ -72,14 +72,16 @@ if ($result) {
     </div>
 </div>
 
-<div class="container section-title">
-    <h3 class="text-center text-header mt-3">Sub Menu</h3>
-    <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
-</div>
 
-<div class="container mt-5 mb-5">
-    <div class="row text-center">
-
-        isi menu disiini
-    </div>
-</div>
+<?php
+if (isset($_GET['act'])) {
+    $act = $_GET['act'];
+    if ($act == 'riwayat_pembayaran') {
+        include("./content/profile/riwayat_pembayaran.php");
+    } else if ($act == 'beri_rating') {
+        include("./content/profile/beri_rating.php");
+    } else if ($act == 'edit_profile') {
+        include("./content/profile/edit_profile.php");
+    }
+}
+?>
