@@ -36,7 +36,7 @@
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
-                            WHERE (k.user_id='$kode' OR k.session_id='$kode') and i.checkout='ya' 
+                            WHERE (k.user_id='$kode' OR k.session_id='$kode') and i.checkout='ya' and i.success is null
                             GROUP BY produk_id, i.tanggal_acara
                         ");
 

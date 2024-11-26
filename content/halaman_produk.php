@@ -218,76 +218,65 @@ if ($ratin_vendor > 5) {
     <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
 </div>
 <div class="container mt-5 mb-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Jane Smith</h5>
-            <p class="card-text">Makeupnya tahan lama dan sangat ringan di kulit. Sangat puas dengan hasilnya!</p>
-            <div class="rating">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </div>
-        </div>
-    </div>
+    <?php
+    // Query untuk mengambil ulasan berdasarkan id_produk
+    $query = mysqli_query($conn, "SELECT 
+                                    ulasan.ulasan, 
+                                    ulasan.rating, 
+                                    users.nama AS user_name 
+                                FROM 
+                                    ulasan 
+                                INNER JOIN 
+                                    users ON ulasan.id_user = users.user_id
+                                WHERE 
+                                    ulasan.id_produk = '$id'
+                                ORDER BY 
+                                    id_ulasan DESC");
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Sarah Lee</h5>
-            <p class="card-text">Layanan sangat profesional! Hasil makeup sesuai ekspektasi, benar-benar memukau.</p>
-            <div class="rating">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </div>
-        </div>
-    </div>
+    // Mengecek jika ada ulasan
+    if (mysqli_num_rows($query) > 0) {
+        // Menampilkan setiap ulasan
+        while ($row = mysqli_fetch_assoc($query)) {
+            $user_name = $row['user_name'];
+            $ulasan_text = $row['ulasan'];
+            $rating_pro = $row['rating'];
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Mike Anderson</h5>
-            <p class="card-text">Hasilnya luar biasa! Makeup natural tapi tetap terlihat elegan dan menonjol.</p>
-            <div class="rating">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-            </div>
-        </div>
-    </div>
+            // Membatasi rating antara 0 dan 5
+            if ($rating_pro > 5) {
+                $rating_pro = 5; // Set ke 5 jika lebih dari 5
+            } elseif ($rating_pro < 1) {
+                $rating_pro = 0; // Set ke 1 jika rating kurang dari 1
+            }
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Linda Brown</h5>
-            <p class="card-text">Sangat senang dengan hasil makeup! Riasannya membuatku percaya diri di acara penting.
-            </p>
-            <div class="rating">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
+            // Menentukan jumlah bintang berdasarkan rating
+            $full_stars = floor($rating_pro);
+            $empty_stars = 5 - $full_stars;
+    ?>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><?= htmlspecialchars($user_name); ?></h5>
+                    <p class="card-text"><?= htmlspecialchars($ulasan_text); ?></p>
+                    <div class="rating">
+                        <?php
+                        // Menampilkan bintang penuh dan kosong
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $rating_pro) {
+                                echo "★"; // Tampilkan bintang penuh jika rating >= i
+                            } else {
+                                echo "☆"; // Tampilkan bintang kosong jika rating < i
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">David Miller</h5>
-            <p class="card-text">Pengalaman luar biasa! Makeup sesuai permintaan, dan hasilnya sempurna sepanjang hari.
-            </p>
-            <div class="rating">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </div>
-        </div>
-    </div>
-
+    <?php
+        }
+    } else {
+        // Jika tidak ada ulasan
+        echo '<div class="alert alert-warning" role="alert">
+                Belum ada ulasan untuk produk ini. Jadilah yang pertama memberi ulasan!
+              </div>';
+    }
+    ?>
 </div>

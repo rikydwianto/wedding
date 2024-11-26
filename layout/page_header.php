@@ -23,7 +23,7 @@
                 <!-- Badge Total Cart -->
                 <span id="cart-total"
                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    <?= $hitung_keranjang ?>
+                    <?= $hitung_keranjang ?? 0 ?>
                 </span>
             </a>
             <?php

@@ -4,7 +4,12 @@
 </div>
 <?php
 $q = mysqli_query($conn, "SELECT
-                            * 
+                            k.*,
+                            p.*,
+                            v.*,
+                            i.*,
+                            i.id AS id_item 
+
                         FROM
                             item_keranjang AS i
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
@@ -13,21 +18,32 @@ $q = mysqli_query($conn, "SELECT
                         WHERE
                             k.user_id= '$user_id' and i.success='ya'
                         GROUP BY
-                            produk_id,
+                            i.id,i.produk_id,
                             i.tanggal_acara ");
 ?>
 <div class="container mt-5 mb-5">
     <div class="row">
+        <?php
+        // Tampilkan pesan sukses jika ada parameter `success` di URL
+        if (isset($_GET['success'])): ?>
+            <div class="alert alert-success" role="alert">
+                Sudah berhasil memberikan ulasan dan rating pada produk. <br> <br> <b>Terima kasih</b>
+            </div>
+        <?php endif; ?>
+
         <?php if (mysqli_num_rows($q) > 0): ?>
             <?php while ($row = mysqli_fetch_assoc($q)): ?>
                 <?php
                 // Query untuk memeriksa apakah produk sudah diulas oleh user
                 $product_id = $row['product_id'];
+                $keranjang_id = $row['keranjang_id'];
                 $user_id = $user_id; // Pastikan $user_id sudah didefinisikan sebelumnya
 
-                $check_review_query = "SELECT * FROM ulasan WHERE id_produk = $product_id AND id_user = $user_id";
+                $check_review_query = "SELECT * FROM ulasan WHERE id_produk = '$product_id' and id_keranjang='$keranjang_id' AND id_user = '$user_id'";
+                // echo $check_review_query;
                 $check_review_result = mysqli_query($conn, $check_review_query);
                 $is_reviewed = mysqli_num_rows($check_review_result) > 0;
+                // echo $is_reviewed;
 
                 // Ambil ulasan dan rating jika sudah diulas
                 $ulasan = $is_reviewed ? mysqli_fetch_assoc($check_review_result) : null;
@@ -35,18 +51,23 @@ $q = mysqli_query($conn, "SELECT
                 $ulasan_text = $ulasan ? $ulasan['ulasan'] : '';  // Ulasan produk
                 ?>
 
-                <div class="col-md-6 col-lg-4 mb-4">
+                <div class="col-md-4 col-lg-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <!-- Bagian Gambar dan Informasi Produk -->
                             <div class="d-flex align-items-center mb-3">
                                 <!-- Gambar Produk -->
                                 <img src="./assets/img/product/<?= htmlspecialchars($row['product_photo']) ?>"
-                                    alt="<?= htmlspecialchars($row['product_name']) ?>" class="img-fluid product-img" />
+                                    style="height: 100px;width: 120px;" alt="<?= htmlspecialchars($row['product_name']) ?>"
+                                    class="img-fluid product-img card-img-top" />
 
                                 <div class="ml-3">
-                                    <h5 class="product-name"><?= htmlspecialchars($row['product_name']) ?></h5>
-                                    <p class="vendor-name"><?= htmlspecialchars($row['vendor_name']) ?></p>
+                                    <h5 class="product-name"><a class="link"
+                                            href="index.php?menu=produk&nama_produk=<?= htmlspecialchars($row['categori']) ?>&produkid=<?= enkrip($row['product_id']) ?>="><?= htmlspecialchars($row['product_name']) ?></a>
+                                    </h5>
+                                    <p class="vendor-name"><a class="link"
+                                            href="index.php?menu=vendor&vendor=<?= enkrip($row['vendor_id']) ?>"><?= htmlspecialchars($row['name']) ?></a>
+                                    </p>
                                     <p class="product-price"><?= rupiah($row['subtotal']) ?></p>
                                 </div>
                             </div>
@@ -82,7 +103,7 @@ $q = mysqli_query($conn, "SELECT
                             <!-- Link untuk memberikan ulasan -->
                             <div class="text-center">
                                 <?php if (!$is_reviewed): ?>
-                                    <a href="give_review.php?product_id=<?= $row['product_id'] ?>"
+                                    <a href="index.php?menu=profile&act=submit_ulasan&id=<?= enkrip($row['id']) ?>"
                                         class="btn btn-primary btn-block">Beri Ulasan</a>
                                 <?php else: ?>
                                     <span class="text-success">Terima kasih atas ulasan Anda!</span>

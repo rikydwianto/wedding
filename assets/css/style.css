@@ -28,6 +28,14 @@ a {
 
   text-decoration: underline; /* Menambahkan garis bawah saat hover */
 }
+.btn-outline-pink {
+  color: #c94f84;
+  border-color: #c94f84;
+}
+.btn-outline-pink:hover {
+  background-color: #c94f84;
+  color: #fff;
+}
 
 .floating-nav {
   position: fixed;

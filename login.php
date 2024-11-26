@@ -56,7 +56,7 @@ if (isset($_GET['checkout'])) {
                             $password = $_POST['password'];
 
                             // Query untuk memeriksa username atau email
-                            $sql = "SELECT * FROM users WHERE username = '$username_or_email' OR email = '$username_or_email'";
+                            $sql = "SELECT * FROM users WHERE( username = '$username_or_email' OR email = '$username_or_email') and role='user'";
                             $result = mysqli_query($conn, $sql);
 
                             // Cek apakah ada pengguna yang ditemukan

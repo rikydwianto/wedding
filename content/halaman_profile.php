@@ -40,7 +40,7 @@ if ($result) {
     <div class="row text-center">
         <!-- Keranjang -->
         <div class="col-md-4">
-            <a href="index.php?menu=keranjang">
+            <a href="index.php?menu=profile&act=keranjang">
                 <div>
 
                     <i class="fa fa-shopping-cart" style="font-size: 60px; color: #3498db;"></i>
@@ -82,6 +82,12 @@ if (isset($_GET['act'])) {
         include("./content/profile/beri_rating.php");
     } else if ($act == 'edit_profile') {
         include("./content/profile/edit_profile.php");
+    } else if ($act == 'submit_ulasan') {
+        include("./content/submit_ulasan.php");
+    } else if ($act == 'keranjang') {
+        include("./content/halaman_keranjang.php");
+    } else {
+        include("./content/halaman_keranjang.php");
     }
 }
 ?>
