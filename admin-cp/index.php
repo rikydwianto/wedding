@@ -6,7 +6,7 @@ include_once "./../function/global.php";
 $role = $_SESSION['role'];
 $id_user = $_SESSION['user_id'];
 
-if (!isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['role'])) {
   // Jika belum login, arahkan ke halaman login
   pindah_halaman("login.php");
   exit(); // Pastikan tidak ada proses lain yang dilakukan setelah redirect
