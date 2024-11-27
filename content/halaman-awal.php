@@ -1,34 +1,32 @@
-<section id='mua' class="header-profile">
-    <div style="background-color: #FFF3EF;">
-        <div class="px-4 py-5 text-center">
-            <div class="container">
-                <div class="row align-items-start justify-content-center">
-                    <!-- Gambar Bulat di Kiri -->
-                    <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
-                        <img class="rounded-circle" src="assets/img/profilebulat.png" alt="Profile Picture" width="200"
-                            height="200">
-                    </div>
+<section id="mua" class="header-profile" style="background-color: #FFF3EF; padding: 60px 0;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <!-- Gambar Bulat di Kiri -->
+            <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
+                <img class="rounded-circle shadow-lg" src="assets/img/profilebulat.png" alt="Profile Picture"
+                    width="220" height="220" style="border: 6px solid #AB7665; transition: transform 0.3s ease;">
+            </div>
 
-                    <!-- Teks di Kanan -->
-                    <div class="col-md-6 ps-4">
-                        <div class="text-start">
-                            <h4 class="fw-bold mb-4" style="color: #AB7665; font-size: 24px;">Apa itu Makeup Artist
-                                (MUA)?</h4>
-                            <p class="lead mb-4 mt-2" style="text-align: justify; color: #AB7665; font-size: 16px;">
-                                Makeup Artist (MUA) adalah seorang profesional yang ahli dalam mengaplikasikan
-                                kosmetik
-                                dan produk kecantikan untuk meningkatkan penampilan seseorang. Mereka sering bekerja
-                                di
-                                berbagai acara seperti pernikahan, pemotretan, acara televisi, dan film, serta dapat
-                                menciptakan berbagai gaya mulai dari tampilan natural hingga glamor.
-                            </p>
-                        </div>
-                    </div>
+            <!-- Teks di Kanan -->
+            <div class="col-md-7">
+                <h4 class="fw-bold mb-3"
+                    style="color: #AB7665; font-size: 30px; text-transform: uppercase; letter-spacing: 1px;">
+                    Apa itu Makeup Artist (MUA)?
+                </h4>
+                <p class="lead" style="text-align: justify; color: #6E4D44; font-size: 17px; line-height: 1.8;">
+                    Makeup Artist (MUA) adalah seorang profesional yang ahli dalam mengaplikasikan kosmetik dan produk
+                    kecantikan untuk meningkatkan penampilan seseorang.
+                    Mereka bekerja di berbagai acara seperti pernikahan, pemotretan, acara televisi, dan film. Dengan
+                    kreativitas dan keterampilannya,
+                    seorang MUA mampu menciptakan berbagai gaya yang memukau, mulai dari tampilan natural yang sederhana
+                    hingga gaya glamor yang mewah.
+                </p>
+                <div class="d-flex align-items-center mt-4">
                 </div>
             </div>
         </div>
-    </div>
 </section>
+
 
 
 <section id="kategori" class="team section mb-5">
@@ -48,7 +46,7 @@
                                                         created_at, 
                                                         updated_at
                                                     FROM
-                                                        categories limit 6");
+                                                        categories ");
             while ($kat = mysqli_fetch_assoc($q_kategori)) {
             ?>
                 <div class="col-lg-2 col-md-4 col-sm-6 d-flex">
@@ -139,29 +137,55 @@ $bannerProduct = mysqli_fetch_assoc($query);
     <div class="container">
         <div class="row" style="display: flex; flex-wrap: wrap; gap: 50px;">
             <?php
-            $q_produk = mysqli_query($conn, "SELECT p.product_id, p.vendor_id, p.product_name, p.product_photo, p.description, p.price, p.stock, p.total_viewer, p.created_at, p.updated_at, v.`name`, v.contact_number, v.email, v.website 
-                                                    FROM
-                                                    products AS p
-                                                    INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id 
-                                                ORDER BY
-                                                    total_viewer DESC 
-                                                    LIMIT 10");
+            $q_produk = mysqli_query($conn, "SELECT         
+                                                p.product_id,       
+                                                p.vendor_id,        
+                                                p.product_name,         
+                                                p.product_photo,        
+                                                p.description,      
+                                                p.price,        
+                                                p.stock,        
+                                                p.total_viewer,         
+                                                p.created_at,       
+                                                p.updated_at,       
+                                                v.`name` AS vendor_name,        
+                                                v.contact_number,       
+                                                v.email,        
+                                                v.website       
+                                            FROM        
+                                                products AS p       
+                                            INNER JOIN      
+                                                vendors AS v        
+                                            ON      
+                                                p.vendor_id = v.vendor_id       
+                                            ORDER BY        
+                                                p.total_viewer DESC limit 10");
             while ($produk = mysqli_fetch_assoc($q_produk)) {
             ?>
                 <div class="col-lg-2 col-md-4 col-sm-6 d-flex">
                     <div class="team-member text-center w-100">
-                        <a href="index.php?menu=produk&nama_produk=<?= ($produk['product_name']) ?>&produkid=<?= enkrip($produk['product_id']) ?>"
-                            class="link">
-                            <img src="assets/img/product/<?= $produk['product_photo'] ?>" class="img-fluid"
-                                alt="<?= $produk['product_name'] ?>"
+                        <!-- Link ke Detail Produk -->
+                        <a href="index.php?menu=produk&nama_produk=<?= htmlspecialchars($produk['product_name']) ?>&produkid=<?= enkrip($produk['product_id']) ?>"
+                            class="link text-decoration-none">
+                            <img src="assets/img/product/<?= htmlspecialchars($produk['product_photo']) ?>"
+                                class="img-fluid" alt="<?= htmlspecialchars($produk['product_name']) ?>"
                                 style="height: 150px; width: 100%; object-fit: cover; border-radius: 3px;">
-                            <div class="member-info">
-                                <?= $produk['product_name'] ?>
-                                <br>
-                                <small>by <?= $produk['name'] ?></small>
+                            <div class="member-info mt-2">
+                                <h5 class="mb-1" style="color: #AB7665;"><?= htmlspecialchars($produk['product_name']) ?>
+                                </h5>
                             </div>
+                        </a>
+                        <!-- Link ke Detail Vendor -->
+                        <div class="vendor-info mt-2">
+                            <small>
+                                by
+                                <a href="index.php?menu=vendor&vendor=<?= enkrip($produk['vendor_id']) ?>"
+                                    class="vendor-link" style="color: #6E4D44; text-decoration: none;">
+                                    <?= htmlspecialchars($produk['vendor_name']) ?>
+                                </a>
+                            </small>
+                        </div>
                     </div>
-                    </a>
                 </div>
             <?php
             }
@@ -173,4 +197,11 @@ $bannerProduct = mysqli_fetch_assoc($query);
 
         </div>
     </div>
+    <div class="text-center mt-4">
+        <a href="index.php?menu=semua-produk" class="btn btn-primary rounded-pill px-4 py-2"
+            style="background-color: #AB7665; border: none; color: white; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; transition: background-color 0.3s;">
+            Lihat Semua Produk
+        </a>
+    </div>
+
 </section>

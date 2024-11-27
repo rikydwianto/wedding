@@ -48,6 +48,8 @@ if (isset($_GET['menu'])) {
         include_once("./content/halaman_konfirmasi_pembayaran.php");
     } else if ($menu == 'profile') {
         include_once("./content/halaman_profile.php");
+    } else if ($menu == 'semua-produk') {
+        include_once("./content/halaman_semua_produk.php");
     } else {
         include_once("./layout/banner.php");
         include_once("./content/halaman-awal.php");
@@ -57,28 +59,34 @@ if (isset($_GET['menu'])) {
     include_once("./layout/banner.php");
     include_once("./content/halaman-awal.php");
 }
-?>
 
-<div class="floating-nav">
-    <a href="index.php#" class="nav-item" data-tooltip="Home">
-        <i class="fa fa-home"></i>
-    </a>
-    <a href="index.php#mua" class="nav-item" data-tooltip="Apa itu MUA?">
-        <i class="fa fa-info-circle"></i>
-    </a>
-    <a href="index.php#kategori" class="nav-item" data-tooltip="Kategori">
-        <i class="fa fa-money"></i>
-    </a>
-    <a href="index.php#rekomendasi" class="nav-item" data-tooltip="Rekomendasi">
-        <i class="fa fa-heart"></i>
-    </a>
-    <!-- <a href="index.php#deal" class="nav-item" data-tooltip="Promo">
+if (!isset($_GET['menu'])) {
+?>
+    <div class="floating-nav">
+        <a href="index.php#" class="nav-item" data-tooltip="Home">
+            <i class="fa fa-home"></i>
+        </a>
+        <a href="index.php#mua" class="nav-item" data-tooltip="Apa itu MUA?">
+            <i class="fa fa-info-circle"></i>
+        </a>
+        <a href="index.php#kategori" class="nav-item" data-tooltip="Kategori">
+            <i class="fa fa-money"></i>
+        </a>
+        <a href="index.php#rekomendasi" class="nav-item" data-tooltip="Rekomendasi">
+            <i class="fa fa-heart"></i>
+        </a>
+        <!-- <a href="index.php#deal" class="nav-item" data-tooltip="Promo">
         <i class="fa fa-money"></i>
     </a> -->
-    <a href="index.php#footer" class="nav-item" data-tooltip="Contact">
-        <i class="fa fa-envelope"></i>
-    </a>
-</div>
+        <a href="index.php#footer" class="nav-item" data-tooltip="Contact">
+            <i class="fa fa-envelope"></i>
+        </a>
+    </div>
+<?php
+}
+?>
+
+
 <div class="offcanvas offcanvas-start" tabindex="-1" id="shoppingCart" aria-labelledby="shoppingCartLabel">
     <div class="offcanvas-header">
         <i class="fa fa-shopping-cart fa-lg"></i> &nbsp;

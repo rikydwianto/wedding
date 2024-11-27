@@ -26,7 +26,7 @@ if ($result) {
                 <p style="font-size: 16px; color: #333;">Email: <?= $user['email'] ?></p>
                 <p class="paragraph">Selamat datang di profil Anda! Ubah informasi Anda dengan mudah di halaman
                     pengaturan.</p>
-                <a href="index.php?menu=profile&act=edit_profile" class="tombol btn btn-primary">Edit Profil</a>
+                <a href="index.php?menu=profile&act=edit_profile" class="tombol ">Edit Profil</a>
             </div>
         </div>
     </div>
@@ -86,8 +86,8 @@ if (isset($_GET['act'])) {
         include("./content/submit_ulasan.php");
     } else if ($act == 'keranjang') {
         include("./content/halaman_keranjang.php");
-    } else {
-        include("./content/halaman_keranjang.php");
     }
+} else {
+    include("./content/halaman_keranjang.php");
 }
 ?>

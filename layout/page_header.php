@@ -1,52 +1,75 @@
-<header class="py-2 border-bottom" style="background-color: #CFA597;position: sticky;">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <!-- Teks dengan font baru -->
-        <div class="text-left">
-            <a href="index.php"
-                class="d-flex flex-column align-items-start ps-5 pt-2 mb-lg-0 link-body-emphasis text-decoration-none text-white text-light"
-                style="font-family: 'Italianno', cursive; font-weight: 400; font-style: normal;">
-                <h1 style="font-size: 3rem; margin: 0;">FAME</h1> <!-- Set margin to 0 -->
-                <h4 style="margin: 0;">Find Artists, Makeup Excellence</h4> <!-- Set margin to 0 -->
+<header class="py-2 border-bottom " style="background-color: #CFA597; z-index: 1000;">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <!-- Logo -->
+            <a class="navbar-brand text-white" href="index.php"
+                style="font-family: 'Italianno', cursive;padding-left: 50px;">
+                <h1 style="font-size: 2.5rem; margin: 0;">FAME</h1>
+                <h4 style="margin: 0; font-size: 1rem;">Find Artists, Makeup Excellence</h4>
             </a>
-        </div>
 
-        <div class="d-flex align-items-center p-3">
-            <!-- <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
-                    <img src="assets/img/list.png" alt="List" width="36" height="36" class="rounded-circle">
-                </a> -->
-            <a href="#" class="d-block link-body-emphasis text-decoration-none pr-3">
-                <img src="assets/img/search.png" alt="Search" width="36" height="36" class="rounded-circle">
-            </a>
-            <a href="javascript:void(0)" class="d-block link-body-emphasis text-decoration-none pr-3 position-relative">
-                <img src="assets/img/cart.png" alt="Cart" width="36" height="36" class="rounded-circle"
-                    data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart">
-                <!-- Badge Total Cart -->
-                <span id="cart-total"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    <?= $hitung_keranjang ?? 0 ?>
-                </span>
-            </a>
-            <?php
-            if (isset($_SESSION['user_id'])) {
-            ?>
-                <a href="index.php?menu=profile" class="d-block link-body-emphasis text-decoration-none pr-3">
-                    <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36" class="rounded-circle">
-                </a>
-                <a href="logout.php" class="d-block link-body-emphasis text-decoration-none pr-3">
-                    <img src="assets/img/sign-out-thin.png" alt="User" width="36" height="36" class="rounded-circle">
-                </a>
-            <?php
-            } else {
-            ?>
-                <a href="login.php" class="d-block link-body-emphasis text-decoration-none pr-3">
-                    <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36" class="rounded-circle">
-                </a>
-            <?php
-            }
+            <!-- Toggler for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            ?>
+            <!-- Menu -->
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="" style="margin:5px;">
+                        <a class=" text-white tombol" href="index.php"><i class="fa fa-home"></i> Home</a>
+                    </li>
+                    <li class="" style="margin:5px;">
+                        <a class=" text-white tombol" href="index.php?menu=semua-produk"><i
+                                class="fa fa-info-circle"></i>
+                            Semua Produk</a>
+                    </li>
+                    <li class="" style="margin:5px;">
+                        <a class=" text-white tombol" href="index.php#kategori"><i class="fa fa-th-large"></i>
+                            Kategori</a>
+                    </li>
+                    <li class="" style="margin:5px;">
+                        <a class=" text-white tombol" href="index.php#rekomendasi"><i class="fa fa-heart"></i>
+                            Rekomendasi</a>
+                    </li>
+                    <li class="" style="margin:5px;">
+                        <a class=" text-white tombol" href="#footer"><i class="fa fa-envelope"></i>
+                            Contact</a>
+                    </li>
+                </ul>
 
-        </div>
+                <!-- Icons Section -->
+                <div class="d-flex align-items-center">
+                    <a href="#" class="text-decoration-none pe-3">
+                        <img src="assets/img/search.png" alt="Search" width="36" height="36" class="rounded-circle">
+                    </a>
+                    <a href="javascript:void(0)" class="text-decoration-none pe-3 position-relative">
+                        <img src="assets/img/cart.png" alt="Cart" width="36" height="36" class="rounded-circle"
+                            data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart">
+                        <!-- Badge for Total Cart -->
+                        <span id="cart-total"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $hitung_keranjang ?? 0 ?>
+                        </span>
+                    </a>
+                    <?php if (isset($_SESSION['user_id'])) { ?>
+                        <a href="index.php?menu=profile" class="text-decoration-none pe-3">
+                            <img src="assets/img/user-circle-light.png" alt="User" width="36" height="36"
+                                class="rounded-circle">
+                        </a>
+                        <a href="logout.php" class="text-decoration-none pe-3">
+                            <img src="assets/img/sign-out-thin.png" alt="Sign Out" width="36" height="36"
+                                class="rounded-circle">
+                        </a>
+                    <?php } else { ?>
+                        <a href="login.php" class="text-decoration-none pe-3">
+                            <img src="assets/img/user-circle-light.png" alt="Login" width="36" height="36"
+                                class="rounded-circle">
+                        </a>
+                    <?php } ?>
+                </div>
+            </div>
+        </nav>
     </div>
-
 </header>
