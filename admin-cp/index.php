@@ -3,7 +3,7 @@ session_start();
 // session_destroy();
 include_once "./../koneksi/db.php";
 include_once "./../function/global.php";
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
   // Jika belum login, arahkan ke halaman login
   header("Location: login.php");
   exit(); // Pastikan tidak ada proses lain yang dilakukan setelah redirect
