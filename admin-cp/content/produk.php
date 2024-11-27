@@ -46,7 +46,10 @@ if ($act == 'tambah') {
     }
 
     // Ambil daftar vendor dan kategori
-    $vendors_query = "SELECT * FROM vendors";
+    $addwhere = " WHERE user_id='$id_user'";
+    if ($role == 'admin')
+        $addwhere = '';
+    $vendors_query = "SELECT * FROM vendors $addwhere";
     $vendors_result = mysqli_query($conn, $vendors_query);
 
     $categories_query = "SELECT * FROM categories";
@@ -116,7 +119,10 @@ elseif ($act == 'edit') {
     $product = mysqli_fetch_assoc($product_result);
 
     // Ambil daftar vendor dan kategori
-    $vendors_query = "SELECT * FROM vendors";
+    $addwhere = " WHERE user_id='$id_user'";
+    if ($role == 'admin')
+        $addwhere = '';
+    $vendors_query = "SELECT * FROM vendors $addwhere";
     $vendors_result = mysqli_query($conn, $vendors_query);
 
     $categories_query = "SELECT * FROM categories";
@@ -252,6 +258,9 @@ elseif ($act == 'edit') {
     }
 } else {
     // Query untuk menampilkan produk dengan join tabel vendors dan categories
+    $addwhere = " WHERE v.user_id='$id_user'";
+    if ($role == 'admin')
+        $addwhere = '';
     $query = "SELECT
                     p.*,
                     v.*,
@@ -259,6 +268,7 @@ elseif ($act == 'edit') {
                 FROM
                     products AS p
                     JOIN vendors AS v ON p.vendor_id = v.vendor_id 
+                    $addwhere
                 ORDER BY
                     p.product_name ASC";
 

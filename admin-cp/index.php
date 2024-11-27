@@ -3,13 +3,18 @@ session_start();
 // session_destroy();
 include_once "./../koneksi/db.php";
 include_once "./../function/global.php";
-if (!isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-  // Jika belum login, arahkan ke halaman login
-  header("Location: login.php");
-  exit(); // Pastikan tidak ada proses lain yang dilakukan setelah redirect
-}
 $role = $_SESSION['role'];
 $id_user = $_SESSION['user_id'];
+
+if (!isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+  // Jika belum login, arahkan ke halaman login
+  pindah_halaman("login.php");
+  exit(); // Pastikan tidak ada proses lain yang dilakukan setelah redirect
+}
+if ($role == 'user') {
+  pindah_halaman("login.php");
+}
+
 $user = mysqli_query($conn, "SELECT users.*  FROM users where user_id='$id_user'");
 $user = mysqli_fetch_assoc($user);
 ?>
