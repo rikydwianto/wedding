@@ -38,6 +38,12 @@
                     </ul>
                 </div>
             </li>
+            <li class="<?php echo ($_GET['menu'] == 'pesanan') ? 'active' : ''; ?>">
+                <a href="index.php?menu=pesanan">
+                    <i class="nc-icon nc-cart-simple"></i>
+                    <p>Pesanan</p>
+                </a>
+            </li>
 
 
         </ul>

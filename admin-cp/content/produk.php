@@ -283,8 +283,8 @@ elseif ($act == 'edit') {
             </div>
             <div class="card-body">
                 <a href="index.php?menu=produk&act=tambah" class="btn btn-success mb-3"> <i class="fa fa-plus"></i> Tambah
-                    Produk</a>
-                <small>Baris berwana hijau adalah produk yg tampil pada banner promo mingguan</small>
+                    Produk</a> <br>
+                <small>*Baris berwana hijau adalah produk yg tampil pada banner promo mingguan</small>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>

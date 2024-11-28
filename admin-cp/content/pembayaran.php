@@ -11,6 +11,7 @@ $result = mysqli_query($conn, "SELECT
                                 konfirmasi_pembayaran.tanggal,
                                 konfirmasi_pembayaran.id_keranjang,
                                 keranjang.id,
+                                count(*) as total_barang,
                                 sum( item_keranjang.subtotal ) AS total_belanja,
                                 konfirmasi_pembayaran.nominal AS nominal_transfer ,
                                 konfirmasi_pembayaran.tanggal
@@ -40,6 +41,7 @@ $result = mysqli_query($conn, "SELECT
                         <th>Tanggal Pembayaran</th>
                         <th>Catatan</th>
                         <th>Status Pembayaran</th>
+                        <th>Total Item</th>
                         <th>Total Belanja</th>
                         <th>Nominal Transfer</th>
                         <th>Aksi</th>
@@ -71,6 +73,7 @@ $result = mysqli_query($conn, "SELECT
                                 }
                                 ?>
                             </td>
+                            <td class="text-center"><?php echo $pembayaran['total_barang'] ?></td>
                             <td><?php echo number_format($pembayaran['total_belanja'], 0, ',', '.'); ?></td>
                             <td><?php echo number_format($pembayaran['nominal_transfer'], 0, ',', '.'); ?></td>
                             <td>

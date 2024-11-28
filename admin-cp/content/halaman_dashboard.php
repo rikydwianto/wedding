@@ -1,4 +1,18 @@
 <?php
+$query_pending = "SELECT count(item_keranjang.subtotal) as total_pesanan_masuk
+FROM
+    item_keranjang
+INNER JOIN products ON item_keranjang.produk_id = products.product_id
+INNER JOIN vendors ON products.vendor_id = vendors.vendor_id
+INNER JOIN keranjang ON item_keranjang.keranjang_id = keranjang.id
+INNER JOIN users ON keranjang.user_id = users.user_id
+INNER JOIN konfirmasi_pembayaran ON keranjang.id = konfirmasi_pembayaran.id_keranjang
+where konfirmasi_pembayaran.status_pembayaran!='approved'   order by item_keranjang.id desc";
+
+$result_pend = mysqli_query($conn, $query_pending);
+$stats_pend = mysqli_fetch_assoc($result_pend)['total_pesanan_masuk'];
+
+
 // Query untuk menghitung statistik
 $total_users_query = "SELECT COUNT(*) AS total_users FROM users";
 $total_products_query = "SELECT COUNT(*) AS total_products FROM products";
@@ -92,7 +106,7 @@ $pending_orders = mysqli_fetch_assoc($pending_orders_result)['pending_orders'];
                     <div class="col-7">
                         <div class="numbers">
                             <p class="card-category">Pending Orders</p>
-                            <h4 class="card-title"><?php echo number_format($pending_orders); ?></h4>
+                            <h4 class="card-title"><?php echo number_format($stats_pend); ?></h4>
                         </div>
                     </div>
                 </div>
