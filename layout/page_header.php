@@ -33,10 +33,10 @@
                         <a class=" text-white tombol" href="index.php#rekomendasi"><i class="fa fa-heart"></i>
                             Rekomendasi</a>
                     </li>
-                    <li class="" style="margin:5px;">
+                    <!-- <li class="" style="margin:5px;">
                         <a class=" text-white tombol" href="#footer"><i class="fa fa-envelope"></i>
                             Contact</a>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <!-- Icons Section -->

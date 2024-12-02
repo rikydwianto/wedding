@@ -132,7 +132,8 @@ if ($ratin_vendor > 5) {
                                         Masukan Keranjang</button>
 
 
-                                    <button class="tombol"><i class="fa fa-calendar"></i> Pesan Sekarang</button>
+                                    <button class="tombol" name="pesan_sekarang"><i class="fa fa-calendar"></i> Pesan
+                                        Sekarang</button>
                                 </div>
 
 
@@ -201,6 +202,71 @@ if ($ratin_vendor > 5) {
                                 if (mysqli_query($conn, $sql_insert)) {
                                     echo "Produk sudah ditambahkan ke keranjang.";
                                     pindah_halaman("");
+                                } else {
+                                    echo "Gagal menambahkan item ke keranjang: " . mysqli_error($conn);
+                                }
+                            }
+                        }
+
+                        if (isset($_POST['pesan_sekarang'])) {
+                            $produk_id = dekrip(mysqli_escape_string($conn, $_GET['produkid']));
+
+
+                            $q = mysqli_query($conn, "SELECT
+                                                        p.product_id, p.vendor_id, p.product_name, p.product_photo, p.description, p.categori, p.price, p.stock, p.total_viewer, p.created_at, p.updated_at, p.rating, v.`name`, v.description as dev_vendor, v.contact_number, v.photo, v.email, v.website, v.`password`, v.url_lokasi, v.latitude, v.logitude, v.rating as rating_vendor  FROM
+                                                        products AS p
+                                                        INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
+                                                    WHERE p.product_id='$id'
+                                                        ");
+                            $produk = mysqli_fetch_assoc($q);
+
+                            $jumlah = 1;
+                            $tgl = mysqli_escape_string($conn, $_POST['tanggal']);
+                            $harga = $produk['price'];
+                            $subtotal = $jumlah * $harga;
+                            $cek_keranjang = mysqli_query($conn, "SELECT * 
+                                                                    FROM
+                                                                        keranjang
+                                                                        where (user_id='$kode' or session_id='$kode') and keranjang.status is null");
+                            if (mysqli_num_rows($cek_keranjang) > 0) {
+                                $cek_keranjang = mysqli_fetch_assoc($cek_keranjang);
+                                $keranjang_id = $cek_keranjang['id'];
+                            } else {
+                                $sql_insert = "INSERT INTO keranjang (user_id, session_id) VALUES ('$kode', '$kode')";
+                                if (mysqli_query($conn, $sql_insert)) {
+                                    // echo "Keranjang baru ditambahkan";
+                                    $keranjang_id = mysqli_insert_id($conn);
+                                } else {
+                                    echo "Gagal menambahkan keranjang: " . mysqli_error($conn);
+                                }
+                            }
+
+                            $sql_item = "SELECT id, jumlah FROM item_keranjang WHERE keranjang_id = '$keranjang_id' AND produk_id = '$produk_id' and tanggal_acara='$tgl'";
+                            $result_item = mysqli_query($conn, $sql_item);
+
+                            if (mysqli_num_rows($result_item) > 0) {
+                                // Jika item sudah ada, lakukan update
+                                $row_item = mysqli_fetch_assoc($result_item);
+                                $jumlah_baru = $row_item['jumlah'] + $jumlah; // Tambahkan jumlah baru
+                                $subtotal_baru = $jumlah_baru * $harga; // Hitung subtotal baru
+
+                                // Update item di keranjang
+                                $sql_update = "UPDATE item_keranjang 
+                                               SET jumlah = '$jumlah_baru', subtotal = '$subtotal_baru', date_edited = NOW() 
+                                               WHERE id = '{$row_item['id']}'";
+                                if (mysqli_query($conn, $sql_update)) {
+                                    echo "Produk sudah ditambahkan ke keranjang.";
+                                    pindah_halaman("");
+                                } else {
+                                    // echo "Gagal memperbarui item keranjang: " . mysqli_error($conn);
+                                }
+                            } else {
+                                // Jika item belum ada, lakukan insert
+                                $sql_insert = "INSERT INTO item_keranjang (keranjang_id, produk_id, jumlah, harga, subtotal,tanggal_acara,checkout) 
+                                               VALUES ('$keranjang_id', '$produk_id', '$jumlah', '$harga', '$subtotal','$tgl','ya')";
+                                if (mysqli_query($conn, $sql_insert)) {
+                                    echo "Produk sudah ditambahkan ke keranjang.";
+                                    pindah_halaman("index.php?menu=pembayaran");
                                 } else {
                                     echo "Gagal menambahkan item ke keranjang: " . mysqli_error($conn);
                                 }
